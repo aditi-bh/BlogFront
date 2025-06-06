@@ -1,16 +1,69 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { fetchUserPosts } from "./userPostsSlice";
 
 const DashBoard = () => {
+  const dispatch = useDispatch();
+  const {
+    items: posts,
+    status,
+    error,
+  } = useSelector((state) => state.userPosts);
+
+  useEffect(() => {
+    dispatch(fetchUserPosts());
+    console.log("this is the posts : ", posts);
+  }, [dispatch]);
+
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/LogIn");
+  };
+
+  if (status === "loading") return <p>Loading your posts...</p>;
+  if (status === "failed") return <p>Error: {error}</p>;
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <div className="bg-white p-8 rounded-xl shadow-md w-full max-w-xl">
-        <h2 className="text-3xl font-bold mb-4 text-center">
-          Welcome to Your Dashboard
-        </h2>
-        <p className="text-center text-gray-700">
-          This is a protected route only accessible to logged-in users.
-        </p>
+    <div className="p-4">
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-2xl font-semibold">Your Posts</h2>
+        <button
+          onClick={handleLogout}
+          className="text-red-500 border border-red-500 px-4 py-2 rounded hover:bg-red-100"
+        >
+          Logout
+        </button>
       </div>
+
+      {posts.length === 0 ? (
+        <p>No posts found.</p>
+      ) : (
+        <div className="overflow-x-auto">
+          <table className="min-w-full bg-white border border-gray-200 rounded-lg shadow">
+            <thead>
+              <tr className="bg-gray-100 text-left">
+                <th className="py-2 px-4 border-b">#</th>
+                <th className="py-2 px-4 border-b">Title</th>
+                <th className="py-2 px-4 border-b">Content</th>
+              </tr>
+            </thead>
+            <tbody>
+              {posts.map((post, index) => (
+                <tr key={post.id} className="hover:bg-gray-50">
+                  <td className="py-2 px-4 border-b">{index + 1}</td>
+                  <td className="py-2 px-4 border-b font-medium">
+                    {post.title}
+                  </td>
+                  <td className="py-2 px-4 border-b">{post.content}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   );
 };

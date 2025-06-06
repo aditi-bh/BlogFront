@@ -22,15 +22,15 @@ function HomePage() {
   };
 
   return (
-    <div className="w-full px-6 py-6 bg-gray-100 block rounded-lg shadow-lg">
+    <div className="w-full px-6 py-8 bg-white rounded-lg shadow-sm font-mono">
       {status === "loading" && <p>Loading...</p>}
       {status === "failed" && <p>Error: {error}</p>}
       {status === "succeeded" && (
-        <div className="flex flex-wrap gap-10">
+        <div className="flex flex-wrap gap-10 justify-center">
           {items.map((Posts) => (
             <div key={Posts.id} className="flex flex-col w-80">
               <div
-                className="relative h-69.5 rounded-xl overflow-hidden shadow-lg hover:shadow-5xl hover:scale-115 transition duration-300 ease-in-out"
+                className="relative h-60 rounded-xl overflow-hidden shadow-md hover:shadow-xl hover:scale-105 transition-transform duration-300 ease-in-out bg-gray-200"
                 style={{
                   backgroundImage:
                     "url('https://images.pexels.com/photos/33041/antelope-canyon-lower-canyon-arizona.jpg?cs=srgb&dl=pexels-photospublic-33041.jpg&fm=jpg')",
@@ -38,11 +38,13 @@ function HomePage() {
                   backgroundPosition: "center",
                 }}
               >
-                <div className="absolute inset-y--1 bg-opacity-30 flex flex-col justify-end p-6">
-                  <h2 className="text-2xl font-bold text-black">
+                <div className="absolute inset-0 bg-black/40 p-4 flex flex-col justify-end">
+                  <h2 className="text-lg font-bold text-white">
                     {Posts.title}
                   </h2>
-                  <p className="text-gray-100 mt-2">{Posts.description}</p>
+                  <p className="text-gray-200 text-sm mt-2">
+                    {Posts.description}
+                  </p>
                 </div>
               </div>
             </div>
@@ -50,18 +52,19 @@ function HomePage() {
         </div>
       )}
 
-      <div className="flex justify-center mt-8 space-x-3">
+      {/* Pagination */}
+      <div className="flex justify-center mt-10 space-x-2">
         {Array.from({ length: totalPages }, (_, idx) => {
           const page = idx + 1;
           return (
             <button
               key={page}
               onClick={() => handlePageChange(page)}
-              className={`px-4 py-2 rounded-md font-semibold ${
+              className={`px-4 py-2 text-sm rounded-md font-semibold transition duration-200 ${
                 currentPage === page
-                  ? "bg-blue-600 text-red shadow-md"
-                  : "bg-gray-300 text-gray-700 hover:bg-gray-400"
-              } transition`}
+                  ? "bg-gray-900 text-black"
+                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+              }`}
             >
               {page}
             </button>

@@ -3,23 +3,33 @@ import HomePage from "./HomePage";
 
 function MainPage() {
   return (
-    <section>
+    <section className="bg-gray-100 w-full h-screen flex">
+      <h1 className="text-lg font-bold tracking-tight">BLOG APPLICATION</h1>
       <header>
-        <nav className=" sticky mx-3 top-0 bg-white shadow z-50  p-3">
-          <h1 className="text-left">Blogs</h1>
-          <p>
-            <Link to="/SignUp" className="text-blue-600 hover:underline">
+        <nav className="sticky top-0 bg-gray z-50 px-6 py-4 flex items-center border-b border-gray-200 font-mono">
+          <div className="ml-auto flex gap-100 text-sm">
+            <Link
+              to="/SignUp"
+              className="text-black-700 hover:underline transition"
+            >
               Signup
             </Link>
-          </p>
-          <p>
-            {" "}
-            <Link to="/LogIn" className="text-blue-600 hover:underline">
+            <Link
+              to="/LogIn"
+              className="text-black-700 hover:underline transition"
+            >
               Login
             </Link>
-          </p>
+            <Link
+              to="/Dashboard"
+              className="text-black-700 hover:underline transition"
+            >
+              Dashboard
+            </Link>
+          </div>
         </nav>
       </header>
+
       <HomePage />
     </section>
   );
