@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { fetchUserPosts } from "./userPostsSlice";
+import AddNewPost from "./AddNewPost";
 
 const DashBoard = () => {
   const dispatch = useDispatch();
@@ -48,6 +49,11 @@ const DashBoard = () => {
                 <th className="py-2 px-4 border-b">#</th>
                 <th className="py-2 px-4 border-b">Title</th>
                 <th className="py-2 px-4 border-b">Content</th>
+                <th className="py-2 px-4 border-b">Delete Posts</th>
+                <th className="py-2 px-4 border-b">
+                  <i className="fi fi-br-pencil-ruler mr-1"></i>
+                  Edit Posts
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -58,10 +64,19 @@ const DashBoard = () => {
                     {post.title}
                   </td>
                   <td className="py-2 px-4 border-b">{post.content}</td>
+                  <td className="py-2 px-4 border-b font-medium">
+                    <button className="text-black">Delete</button>
+                  </td>
+                  <td className="py-2 px-4 border-b font-medium">
+                    <button className="text-black">Edit</button>
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
+          <section>
+            <AddNewPost />
+          </section>
         </div>
       )}
     </div>

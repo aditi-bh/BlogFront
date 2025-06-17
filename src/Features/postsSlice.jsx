@@ -20,6 +20,28 @@ export const fetchPosts = createAsyncThunk(
   }
 );
 
+export const AddPosts = createAsyncThunk(
+  "posts/AddPosts",
+  async (postData, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/api/posts",
+        postData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+        }
+      );
+      console.log("api response : ", response.data);
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data || err.message);
+    }
+  }
+);
+
 //Slices are used to manage state in the store. They take an initial state and a reducer function as arguments.
 const postsSlice = createSlice({
   // createSlice is a function that creates a slice of the state which means it creates a reducer function and an initial state.
