@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { fetchUserPosts } from "./userPostsSlice";
 import AddNewPost from "./AddNewPost";
+import { DeletePost } from "./DeleteSlice";
 
 const DashBoard = () => {
   const dispatch = useDispatch();
@@ -22,6 +23,16 @@ const DashBoard = () => {
   const handleLogout = () => {
     localStorage.removeItem("token");
     navigate("/LogIn");
+  };
+
+  const handleDelete = (postId) => {
+    const confirmDelete = window.confirm(
+      "are you sure you want to delete this post ? "
+    );
+    if (confirmDelete) {
+      dispatch(DeletePost(postId));
+    }
+    // implemented delete post logic here
   };
 
   if (status === "loading") return <p>Loading your posts...</p>;
@@ -65,7 +76,12 @@ const DashBoard = () => {
                   </td>
                   <td className="py-2 px-4 border-b">{post.content}</td>
                   <td className="py-2 px-4 border-b font-medium">
-                    <button className="text-black">Delete</button>
+                    <button
+                      onClick={() => handleDelete(post.id)}
+                      className="text-black"
+                    >
+                      Delete
+                    </button>
                   </td>
                   <td className="py-2 px-4 border-b font-medium">
                     <button className="text-black">Edit</button>
